@@ -1,0 +1,64 @@
+
+- Creando App y registrando admin
+  -- npx create-strapi-app@latest ecommerce-strapi
+    --- Custom (manual settings)
+       ---- javascript/typescript
+       ---- sqlite (sqlite, postgres, mysql)
+       ---- Filename: .tmp/data.db
+  
+  -- cd ecommerce-strapi
+  -- yarn develop
+  -- En localhost:1337 Se nos abre el panel para configurar el admin, lo configuramos
+
+- Conociendo el admin panel (Conociendo las opciones del menu)
+  -- Abajo de todo tenemos la configuración del usuario
+    --- Podemos cambiar nombre, apellido, email, username, password, lenguaje de la interfaz, modo oscuro/claro de la interfaz
+  -- Parte de arriba: Content Manager:
+    --- Para rellenar con datos las tablas de datos (a las tablas en Strapi se llaman Collections)
+    --- Viene por defecto la tabla User
+      ---- Se utiliza para la gestion de usuarios de la aplicacion, NO para los usuarios del admin panel, eso se hacen en otro sitio, se hace en settings -> users
+  -- Content-Type Builder:
+    --- Para crear las tablas de datos (a las tablas en Strapi se llaman Collections)
+    --- Viene por defecto la tabla User
+      ---- Se utiliza para la gestion de usuarios de la aplicacion, NO para los usuarios del admin panel, eso se hacen en otro sitio, se hace en settings -> users
+    --- Sirve para crear Colecciones, single types y componentes
+  -- Media library:
+    --- Para subir imagenes, videos, etc (archivos multimedia)
+  -- Plugins:
+     --- Informacion de los plugins que hay instalados
+  -- Marketplace:
+     --- Para instalar los plugins
+  -- Settings:
+    --- Overview:
+      ---- Nos dice la version de strapi que esta instalada, la version de node que utiliza, poner version de plan de pago
+    --- API Token:
+      ---- Para dar permisos a distintas aplicaciones a distintos puntos de la API
+    --- Internationalization:
+      ---- Para añadir idiomas
+    --- Media library
+    --- Webhooks: Para crear webhooks! :)
+    --- Roles (Administration Panel):
+       ---- Author, Editor, Super admin
+       ---- En caso de querer más roles, hay que pagar
+    --- Users (Administration Panel):
+       ---- Lista de usuarios del panel de administrador
+       ---- Podemos añadir/eliminar
+    --- Configuration (Email Plugin):
+      ---- Para configurar Emails! con sendgrid o sendmail, vaya abuso! :)
+      ---- Puedes testear el envio de email en esta misma pantalla! :)
+    --- Roles (Users & Permissions Plugin)
+      ---- Para Activar/Desactivar endpoints, MUY IMPORTANTE!!!!!
+      ---- Authenticated: Para configurar los endpoints que necesitan o no necesitan Token
+      ---- Public: Para configurar los endpoints que NO necesitan token, es decir, que cualquier persona puede ejecutarlos
+    --- Providers (Users & Permissions Plugin)
+      ---- Para ver los tipos de login que quieren que haya en nuestra aplicacion
+    --- Email templates
+      ---- Para crear/eliminar emails template
+      ---- Por defecto tenemos los temlate de emails de Reset Password y Email address confirmation
+    --- Advanced settings:
+      ---- Redirection url para email confirmation
+      ---- enable sign-ups
+      ---- etc
+
+- Creando bucket S3 en AWS
+
