@@ -1,4 +1,6 @@
 
+==== Inicializando proyecto de Strapi ====
+
 - Creando App y registrando admin
   -- npx create-strapi-app@latest ecommerce-strapi
     --- Custom (manual settings)
@@ -61,4 +63,77 @@
       ---- etc
 
 - Creando bucket S3 en AWS
+  -- Iniciamos sesion
+  -- seleccionar region
+  -- crear bucket S3
+  -- Ponerlo Publico
+  -- acl habilitadas
+  -- copiamos el nombre del bucket para luego configurarlo en el proyecto
+  -- creamos un usuario para dar acceso al bucket
+  -- Obtenemos los siguientes datos:
+    --- Bucket Name: ecommerce-strapi-games
+    --- Politica de AWS: S3BucketAccessStrapiGameEcommerce
+    --- AWS User Name: strapi-ecommerce-game
+    --- Clave de acceso: AKIAX...
+    --- Clave de acceso secreta: vst93YlD2...
+    --- Region: eu-west-1 (mirarlo en la url del bucket -> ?region=eu-west-1)
 
+- Configurando S3 en Strapi
+  -- Abrir panel Admin de Strapi e ir a Marketplace
+  -- Seleccionar "AWS S3" (pulsar el boton de "More" para ver la documentacion)
+    --- yarn add @strapi/provider-upload-aws-S3
+    --- copiar la configuracion de aws-s3 en "./config/plugins.js" x(mirar documentacion de plugin AWS-S3)
+    --- rellenamos los siguientes datos en .env (en el tutorial lo pone como string directamente en plugins.js, pero no es buena practica)
+      ---- AWS_ACCESS_KEY_ID=AKIAX...
+      ---- AWS_ACCESS_SECRET=vst93YlD2...
+      ---- AWS_REGION=eu-west-1
+      ---- AWS_BUCKET=ecommerce-strapi-games
+  -- yarn develop y subimos una imagen en "Media Library" de Strapi
+    --- La imagen no se verá en "Media Library" de Strapi, pero si copiamos su link y lo pegamos en el navegador, veremos la imagen alojada en AWS S3
+  -- Para ver las imagenes en "Media Library" -> copiar la configuracion de cors en "./config/middlewares.js" (mirar documentacion de plugin AWS-S3)
+    -- Cambiar el path base de S3, para verlo coger una imagen subida al S3 y la url base es el path base
+
+- Creando una cuenta en Stripe
+  -- Nos registramos/logueamos en Stripe
+  -- Pulsar en "Nueva Cuenta"
+    -- Poner el nombre de la cuenta y el pais donde opera
+
+
+==== FIN Inicializando proyecto de Strapi - BACKEND ====
+
+==== Sistema de usuarios ====
+
+- Activar GET de usuario
+  -- Ir a Settings -> Roles (Users & Permissions Plugin) -> Authenticated -> Users-permission -> USER -> Activar checkbox "find" (si le damos al icono de la tuerca vemos el endpoint) -> Click en "Save"
+
+- Ampliar modelo del usuario
+  -- Ir a "Content-Type Builder" -> "User" -> click en "Add another field to this collection type"
+  -- Creamos el field (campo) "firstname": para ello creamos un field de tipo "Text", name: firstname, type: Short text, opcional (NO marcar checkbox "Required field" en "Advanced Settings") 
+  -- Creamos el field "lastname"
+  -- Click en "Save"
+
+- Registro de usuarios (Activar y configurar el registro de usuarios)
+  -- Ir a Settings -> Roles (Users & Permissions Plugin) -> Public -> Users-permissions -> Activar checkbox "register" -> click en "Save"
+  -- El endpoint para registrarse es (Probarlo con Postman):
+    --- POST: http://localhost:1337/api/auth/local/register
+    --- Body JSON:
+      {
+        "email: "xagustin93@gmail.com",
+        "username": "xAgustin93",
+        "password": "123456"
+      }
+    --- Le damos a "Send" y nos devolverá un 200
+    --- Ir a "Content Manager" en Panel Admin strapi -> User -> Ahi veremos el nuevo usuario que hemos creado
+
+- Login de usuario (Activar y configurar login de usuario)
+  -- (Ya lo hicimos en el paso anterior) Ir a Settings -> Roles (Users & Permissions Plugin) -> Public -> Users-permissions -> Activar checkbox "register" -> click en "Save"
+  -- Por si acaso, los checkbox que tiene activo en el curso son: callback, connect, emailConfirmation, forgotPassword, register, resetPassword, sendEmailConfirmation
+  -- El endpoint para loguearse es (Probarlo con Postman):
+    --- POST: http://localhost:1337/api/auth/local
+    --- Body JSON:
+    {
+      "identifier": "xagustin93@gmail.com",
+      "password": "123456"
+    }
+
+- Obtener informacion del usuario
